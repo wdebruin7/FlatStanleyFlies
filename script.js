@@ -74,17 +74,7 @@ function appendSelectorForm($container){
 
 }
 
-function searchFlights(){
-    
-    let filter_object = {};
-    $('#flight-search-msg').empty();
-    
-    let dep_a_id = 0;
-    let arr_a_id = 0;
-    let dep_date = '';
-    let missing_param = false;
-        
-    let getAirportId = (code) => {
+function getAirportId(code){
         let rv = 0;
         $.ajax(root_url + 'airports?filter[code]=' + code, {
             type:'GET',
@@ -105,7 +95,17 @@ function searchFlights(){
         });
         return rv;
     }
+
+function searchFlights(){
     
+    let filter_object = {};
+    $('#flight-search-msg').empty();
+    
+    let dep_a_id = 0;
+    let arr_a_id = 0;
+    let dep_date = '';
+    let missing_param = false;
+            
     let getInstances = (params, flight_date) => {
         let instances = {};
         
