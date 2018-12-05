@@ -13,8 +13,6 @@ var flightMarker = null;
 var depLatLng = null;
 var arrLatlng = null;
 
-<<<<<<< HEAD
-
 function sortAirline(array){
     array.sort(function(a, b){
        if(a.name < b.name){
@@ -27,8 +25,6 @@ function sortAirline(array){
     return array;
 }
 
-=======
->>>>>>> 390afb2d307f5524765f76efe3528442ab76b125
 function populate_airline(airline_id){
    document.getElementById("airline_input").value = airline_id;
 }
@@ -230,8 +226,6 @@ function getAirportId(code){
         return rv;
     }
 
-<<<<<<< HEAD
-=======
 function addFlight (){
     let flight_params = {};
     
@@ -316,7 +310,7 @@ function addFlight (){
                 addFlightAndInstance();
                 return;
             }
-            let id = response.id;
+            let id = response[0].id;
             debugger;
             $.ajax(root_url+'instances',{
                 type:'GET',
@@ -400,7 +394,6 @@ function addFlight (){
         });
     }
 }
->>>>>>> 390afb2d307f5524765f76efe3528442ab76b125
 
 // FLITER + SEARCH FLIGHTS
 function searchFlights(){
