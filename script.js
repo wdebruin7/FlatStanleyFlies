@@ -14,8 +14,16 @@ var depLatLng = null;
 var arrLatlng = null;
 
 
-function addFlight (){
-    $('#flight-search-msg').empty();    
+function sortAirline(array){
+    array.sort(function(a, b){
+       if(a.name < b.name){
+           return -1;
+       }if(a.name > b.name){
+           return 1;
+       }
+    });
+    
+    return array;
 }
 
 function populate_airline(airline_id){
@@ -23,15 +31,16 @@ function populate_airline(airline_id){
 }
 
 function airlineList (airline_data){
+    var array = sortAirline(airline_data);
     let $table_header = $('<ul class="list-group airline-list">');
-    for (var i=0; i<airline_data.length; i++){
-        $table_header.append('<li class="list-group-item" onclick="populate_airline('+airline_data[i].id+')">'+airline_data[i].name+ '&nbsp&nbsp&nbsp - &nbsp&nbsp'+ airline_data[i].id +'</li>');
+    for (var i=0; i<array.length; i++){
+        $table_header.append('<li class="list-group-item" onclick="populate_airline('+array[i].id+')">'+array[i].name+ '&nbsp&nbsp&nbsp - &nbsp&nbsp'+ array[i].id +'</li>');
     }
-    $('.table-bordered').after($table_header);
+    $('.table').after($table_header);
 }
 
 function getAirlines($col){
-    $col.append('<table class="table table-bordered"><thead><tr><th scope="col">Airline</th><th scope="col">ID</th></tr></thead></table>');
+    $col.append('<table class="table"><thead><tr><th scope="col">Airline</th><th scope="col">ID</th></tr></thead></table>');
     $.ajax(root_url + 'airlines', {
         type:'GET',
         dataType:'json',
@@ -60,8 +69,8 @@ function buildFormInterface(review){
     let $row = $('<div class="row"></div>');
     $container.append($row);
     
-    let $col1 = $('<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4"></div>');
-    let $form = $('<form class= "col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-8">');
+    let $col1 = $('<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>');
+    let $form = $('<form class= "col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8">');
     
     getAirlines($col1);
     
@@ -80,7 +89,7 @@ function buildFormInterface(review){
     }else{
         $depart_time.append($('<label>',{for:'depart_time_input', html:'*Departure Time*: '}));
     }
-    $depart_time.append($('<input>',{type: "text", class: 'form-control', id:'depart_time_input', placeholder:'Enter departure time'}));
+    $depart_time.append($('<input>',{type: "text", class: 'form-control', id:'depart_time_input', placeholder:'Enter departure time in the form HH:MM'}));
     $form.append($depart_time);
     
     let $arrival_time = $('<div>', {class:'form-group'});
@@ -89,7 +98,7 @@ function buildFormInterface(review){
     }else{
         $arrival_time.append($('<label>',{for:'arrival_time_input', html:'*Arrival Time*: '}));
     }
-    $arrival_time.append($('<input>',{type: "text", class: 'form-control', id:'arrival_time_input', placeholder:'Enter arrival time'}));
+    $arrival_time.append($('<input>',{type: "text", class: 'form-control', id:'arrival_time_input', placeholder:'Enter arrival time in the form HH:MM'}));
     $form.append($arrival_time);
     
     let $flight_number = $('<div>', {class:'form-group'});
@@ -121,7 +130,7 @@ function buildFormInterface(review){
     
     let $airline = $('<div>', {class:'form-group'});
     $airline.append($('<label>',{for:'airline_input', html:'Airline ID: '}));
-    $airline.append($('<input>',{type: "text", class: 'form-control', id:'airline_input', placeholder:'Enter airline ID or select airport on the left'}));
+    $airline.append($('<input>',{type: "text", class: 'form-control', id:'airline_input', placeholder:'Enter airline ID or select airline to the left'}));
     $form.append($airline);
    
     let $flight_date = $('<div>', {class:'form-group'});
@@ -217,6 +226,7 @@ function getAirportId(code){
         });
         return rv;
     }
+
 
 // FLITER + SEARCH FLIGHTS
 function searchFlights(){
