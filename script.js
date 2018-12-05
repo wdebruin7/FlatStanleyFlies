@@ -15,12 +15,11 @@ var arrLatlng = null;
 
 
 function addFlight (){
-    
+    $('#flight-search-msg').empty();    
 }
 
 function populate_airline(airline_id){
-   let text_box = document.getElementById("airline_input");
-   text_box.value = airline_id;
+   document.getElementById("airline_input").value = airline_id;
 }
 
 function airlineList (airline_data){
@@ -137,6 +136,7 @@ function buildFormInterface(review){
     }
     $row.append($col1);
     $row.append($form);
+    $form.append('<p id="flight-search-msg"></p>');
     $navBar.after($jumbotron);
 }
 
@@ -194,7 +194,6 @@ function appendNavBar($container, username){
     $container.append($navbar);
     
 }
-
 
 // AIRPOROT CODE -> ID
 function getAirportId(code){
