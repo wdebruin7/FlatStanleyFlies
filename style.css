@@ -64,3 +64,13 @@ p{
     overflow-y: scroll;
     border: 1px solid lightgrey;
 }
+
+#map{
+    height: 700px;
+    width: 100%
+}
+
+.flight-review-list{
+    height: 55vh;
+    overflow-y: scroll;
+}
