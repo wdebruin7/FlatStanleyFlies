@@ -225,9 +225,16 @@ function searchFlights(){
     let filter_object = {};
     $('#flight-search-msg').empty();
     
+    let dep_time = $('#depart_time_input').val();
+    let arr_time = $('#arrival_time_input').val();
+    let flight_num = $('#flight_number_input').val();
+    let dep_code = $('#departure_airport_input').val();
+    let arr_code = $('#arrival_airport_input').val();
+    let airline_id = $('#airline_input').val();
+    let dep_date = $('#flight_date_input').val();
+    
     let dep_a_id = 0;
     let arr_a_id = 0;
-    let dep_date = null;
     let bad_param = false;
             
     let getInstances = (params, flight_date) => {
@@ -277,42 +284,58 @@ function searchFlights(){
         
         return instances;
     }
-        
-    let flight_number = $('#flight-number-input').val();
-    if(flight_number!=''){
+    
+    if(dep_time!=''){
+        filter_object['departs_at']=dep_time;
+    }
+    if(arr_time!=''){
+        filter_object['arrives_at']=arr_time;
+    }
+    if(flight_num!=''){
         filter_object['number'] = flight_number;
     }
-    
-    let dep_airport = $('#departure-airport-input').val();
-    if(dep_airport!=''){
-        dep_a_id = getAirportId(dep_airport);
+    if(dep_code!=''){
+        dep_a_id = getAirportId(dep_code);
         if(dep_a_id == -1){
             $('#flight-search-msg').append('Departure airport not found. Please enter a new departure airport and try again.<br>');
             bad_param = true;
+        }else{
+            filter_object['departure_id'] = dep_a_id.toString();
         }
-        filter_object['departure_id'] = dep_a_id.toString();
     }
-    
-    let arr_airport = $('#arrival-airport-input').val();
-    if(arr_airport!=''){
-        arr_a_id = getAirportId(arr_airport);
+    if(arr_code!=''){
+        arr_a_id = getAirportId(arr_code);
         if(arr_a_id==-1){
             $('#flight-search-msg').append('Arrival airport not found. Please enter a new arrival airport and try again.<br>');
             bad_param = true;
+        }else{
+            filter_object['arrival_id'] = arr_a_id.toString();
         }
-        filter_object['arrival_id'] = arr_a_id.toString();
     }
-        
-    dep_date = $('#departure-date-input').val();
+    if(airline_id!=''){
+        filter_object['airline_id']=airline_id;
+    }
+    
+    if(dep_date==''){
+        $('#flight-search-msg').append('Please enter a departure date and try again.<br>');
+        bad_param = true;
+    }
     
     if(bad_param){
         return;
     }
     
-    flights = getInstances(filter_object, dep_date);
-    console.log(flights.length);
+    debugger;
     
-    buildReviewFlightInterface();
+    $('#flight-search-msg').html('Searching for flights...<br>');
+    flights = getInstances(filter_object, dep_date);
+    $('#flight-search-msg').empty();
+    
+    if(flights.length>0){
+        buildReviewFlightInterface();
+    }else{
+        $('#flight-search-msg').append('No flights found match your search criteria. Please review your criteria and try again. <br>');
+    }
 }
 
 function updateMap(){
@@ -337,7 +360,6 @@ function updateMap(){
 }
 
 function addNewMapPath(dep_lat, dep_lon, arr_lat, arr_lon){
-    debugger;
     
     if(flightPath!=null){
         flightPath.setMap(null);
@@ -451,7 +473,6 @@ function appendFlightList($container){
 }
 
 function trackNewFlight(flight_id){
-    debugger;
     
     if(flight_id == cur_flight_id){
         return;
@@ -527,9 +548,7 @@ function buildReviewFlightInterface(){
     
     $jumbo.append($row);
     $body.append($jumbo);
-    
-    debugger;
-    
+        
     initMap();
 }
 
@@ -590,5 +609,7 @@ $(document).ready(function() {
         let pass = $('#modal_password').val();
         create_user(user_id, pass);
     });
+    
+    login('wdebruin', 'test123');
 
 });
