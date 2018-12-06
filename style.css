@@ -82,6 +82,17 @@ th{
     margin-bottom: 0px;
 }
 
+.fade{
+    opacity: 1;
+}
+
+.modal-backdrop.fade{
+    opacity: .5;
+}
+
+.modal-dialog{
+    margin-top: 15%;
+}
 
 
 

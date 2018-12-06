@@ -283,7 +283,7 @@ function addFlight (){
         }
     }else{
         bad_param = true;
-        $('#flight-search-msg').append('Please enter an arrival time and try again.<br>');
+        $('#flight-search-msg').append('Please enter an arrival airport and try again.<br>');
     }
     if(airline_id!=''){
         flight_params['airline_id']=airline_id;
