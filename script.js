@@ -507,7 +507,7 @@ function searchFlights(){
     $('#flight-search-msg').empty();
     
     if(flights.length>0){
-        buildReviewFlightInterface(user_id);
+        buildReviewFlightInterface();
     }else{
         $('#flight-search-msg').append('No flights found match your search criteria. Please review your criteria and try again. <br>');
     }
@@ -699,7 +699,7 @@ function buildReviewFlightInterface(){
     let $body = $('body');
     $body.empty();
     
-    appendNavBar($body);
+    appendNavBar($body, user_id);
     
     
     let $jumbo = $('<div>', {class:'jumbotron container container-fluid'});
